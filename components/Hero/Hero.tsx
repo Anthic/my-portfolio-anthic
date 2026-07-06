@@ -249,16 +249,27 @@ export default function Hero({ trigger }: HeroProps) {
         <source src="/video/banner.mp4" type="video/mp4" />
       </video>
 
-      {/* ── OVERLAY — lighter overlay for maximum video brightness ────────── */}
+      {/* ── OVERLAYS — multi-layered for cinematic depth ─────────────────── */}
+      {/* Left heavy gradient for text readability */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 1,
-          /* Left heavy for text readability, right is almost pure video */
           background:
-            "linear-gradient(115deg, rgba(0,0,0,0.46) 0%, rgba(0,0,0,0.20) 55%, rgba(0,0,0,0.02) 100%)",
+            "linear-gradient(115deg, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.22) 55%, rgba(0,0,0,0.02) 100%)",
+        }}
+      />
+      {/* Top vignette to darken the area behind the navbar logo and links */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 25%)",
         }}
       />
 
@@ -283,7 +294,7 @@ export default function Hero({ trigger }: HeroProps) {
             alignItems: "center",
             gap: "0.5rem",
             padding: "0.38rem 0.9rem",
-            marginBottom: "clamp(1rem, 2.5vh, 1.6rem)",
+            marginBottom: "clamp(.5rem, 1.5vh, .8rem)",
             borderRadius: "999px",
             border: "1px solid rgba(255,255,255,0.15)",
             background: "rgba(255,255,255,0.09)",
@@ -315,7 +326,7 @@ export default function Hero({ trigger }: HeroProps) {
             fontFamily: "Satoshi, system-ui, sans-serif",
             fontWeight: 800,
             /* Device-wise responsive sizing: text-4xl base scaling up */
-            fontSize: "clamp(2.25rem, 5.5vw, 4.5rem)",
+            fontSize: "clamp(2.00rem, 5.00vw, 6.00rem)",
             translate: "none",
             rotate: "none",
             scale: "none",
@@ -341,7 +352,7 @@ export default function Hero({ trigger }: HeroProps) {
             style={{
               fontFamily: "Satoshi, system-ui, sans-serif",
               fontWeight: 400,
-              fontSize: "clamp(0.82rem, 1.55vw, 1.05rem)",
+              fontSize: "clamp(1.50rem, 1.50vw, 1.10rem)",
               lineHeight: 1.6,
               color: "rgba(255,255,255,0.62)",
               marginBottom: "clamp(1.6rem, 3.5vh, 2.4rem)",
