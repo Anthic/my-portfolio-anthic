@@ -3,13 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Geist", Arial, Helvetica, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +14,47 @@
   }
 }
 
+html {
+  /* Prevent the custom cursor / SVG animation ripples from creating a phantom scrollbar */
+  overflow-x: hidden;
+}
+
 body {
-  background: var(--background);
+  background: #090909;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* ── Custom cursor ─────────────────────────────────────────────────────────── */
+/* Must be position:fixed so GSAP x/y transforms don't affect document flow   */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  /* GSAP uses transform: translate() — starts off-screen until first mousemove */
+  transform: translate(-100px, -100px);
+  will-change: transform;
+}
+
+.custom-cursor-outer {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  border: none;
+  opacity: 0.90;
+}
+
+.custom-cursor-inner {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* Custom cursor inner hidden by default */
+.custom-cursor-inner {
+  display: none;
 }
