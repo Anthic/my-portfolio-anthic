@@ -462,26 +462,26 @@ export default function NavbarDropAnimation({ trigger, onComplete }: Props) {
 
       {/* ── GOO layer: drop body + expanding bar share the filter ── */}
       <g filter="url(#nda-goo)">
-        {/* Teardrop body — pure black per AGENTS.md spec */}
-        <path ref={dropRef} fill="black" />
+        {/* Teardrop body using #F6F0F0 to match light navbar */}
+        <path ref={dropRef} fill="#F6F0F0" />
 
         {/* Navbar pill rectangle that morphs open during phase 4 */}
-        <rect ref={barRef} fill="black" />
+        <rect ref={barRef} fill="#F6F0F0" />
       </g>
 
       {/* ── Gloss highlights — outside filter so they stay pixel-crisp ── */}
       <ellipse ref={gloss1Ref} fill="url(#nda-gloss1)" />
       <ellipse ref={gloss2Ref} fill="url(#nda-gloss2)" />
 
-      {/* ── Impact ripple rings ── */}
-      <ellipse ref={rip1Ref} fill="none" stroke="rgba(0,0,0,0.50)" strokeWidth="1.8" />
-      <ellipse ref={rip2Ref} fill="none" stroke="rgba(0,0,0,0.28)" strokeWidth="1.3" />
-      <ellipse ref={rip3Ref} fill="none" stroke="rgba(0,0,0,0.14)" strokeWidth="1.0" />
+      {/* ── Impact ripple rings using the clean #F6F0F0 color with opacity ── */}
+      <ellipse ref={rip1Ref} fill="none" stroke="rgba(246, 240, 240, 0.45)" strokeWidth="1.8" />
+      <ellipse ref={rip2Ref} fill="none" stroke="rgba(246, 240, 240, 0.28)" strokeWidth="1.3" />
+      <ellipse ref={rip3Ref} fill="none" stroke="rgba(246, 240, 240, 0.12)" strokeWidth="1.0" />
 
       {/* ── Micro satellite droplets that shoot out on impact ── */}
-      <circle ref={sat1Ref} fill="black" />
-      <circle ref={sat2Ref} fill="black" />
-      <circle ref={sat3Ref} fill="black" />
+      <circle ref={sat1Ref} fill="#F6F0F0" fillOpacity="0.8" />
+      <circle ref={sat2Ref} fill="#F6F0F0" fillOpacity="0.6" />
+      <circle ref={sat3Ref} fill="#F6F0F0" fillOpacity="0.4" />
     </svg>
   );
 }

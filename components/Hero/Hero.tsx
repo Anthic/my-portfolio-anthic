@@ -8,19 +8,19 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 const WORDS = ["AI Agents", "RAG Systems", "LangGraph pipelines", "full-stack architecture"] as const;
 const SUFFIX = "turning complex problems into production-ready solutions.";
 
-/* Dynamic selection colors using requested greens: E6F2DD, 2B5748, 618764, 9CB080, 607456 */
+/* Dynamic selection colors: #607456, #EEE0CC, #BA6A4C, #7B2525 */
 const SELECTION_COLORS: Record<string, string> = {
-  "AI Agents": "rgba(43, 87, 72, 0.24)",            // 2B5748
-  "RAG Systems": "rgba(97, 135, 100, 0.24)",         // 618764
-  "LangGraph pipelines": "rgba(96, 116, 86, 0.24)",  // 607456
-  "full-stack architecture": "rgba(43, 87, 72, 0.28)" // 2B5748
+  "AI Agents":              "rgba(96,  116, 86,  0.32)",  // #607456 — earthy green
+  "RAG Systems":            "rgba(238, 224, 204, 0.28)",  // #EEE0CC — warm cream
+  "LangGraph pipelines":    "rgba(186, 106, 76,  0.32)",  // #BA6A4C — terracotta
+  "full-stack architecture": "rgba(123, 37,  37,  0.32)",  // #7B2525 — deep red
 };
 
 const SELECTION_BORDERS: Record<string, string> = {
-  "AI Agents": "rgba(156, 176, 128, 0.45)",           // 9CB080
-  "RAG Systems": "rgba(230, 242, 221, 0.45)",          // E6F2DD
-  "LangGraph pipelines": "rgba(156, 176, 128, 0.45)",  // 9CB080
-  "full-stack architecture": "rgba(230, 242, 221, 0.50)" // E6F2DD
+  "AI Agents":              "rgba(96,  116, 86,  0.70)",  // #607456
+  "RAG Systems":            "rgba(238, 224, 204, 0.60)",  // #EEE0CC
+  "LangGraph pipelines":    "rgba(186, 106, 76,  0.70)",  // #BA6A4C
+  "full-stack architecture": "rgba(123, 37,  37,  0.70)",  // #7B2525
 };
 
 type HeroProps = {
@@ -239,7 +239,7 @@ export default function Hero({ trigger }: HeroProps) {
           height: "100%",
           objectFit: "cover",
           /* Shift up slightly to show more of the subject's body, minimizing crop zoom */
-          objectPosition: "center 30%",
+          objectPosition: "center 10%",
           zIndex: 0,
           transform: "scale(1.0)",
           /* Increase video brightness and visual pop */
@@ -302,7 +302,7 @@ export default function Hero({ trigger }: HeroProps) {
             WebkitBackdropFilter: "blur(12px)",
             fontFamily: "Satoshi, system-ui, sans-serif",
             fontWeight: 500,
-            fontSize: "clamp(0.62rem, 1.2vw, 0.76rem)",
+            fontSize: "clamp(0.60rem, 1vw, 0.57rem)",
             letterSpacing: "0.09em",
             textTransform: "uppercase",
             color: "rgba(255,255,255,0.78)",
@@ -311,8 +311,8 @@ export default function Hero({ trigger }: HeroProps) {
           <span
             style={{
               width: 6, height: 6, borderRadius: "50%",
-              background: "#4ade80", flexShrink: 0,
-              boxShadow: "0 0 6px 2px rgba(74,222,128,0.60)",
+              background: "#4a85deff", flexShrink: 0,
+              boxShadow: "0 0 6px 2px rgba(74, 109, 222, 0.6)",
             }}
           />
           Turning Data into Decisions, Code into Solutions
@@ -323,10 +323,10 @@ export default function Hero({ trigger }: HeroProps) {
           ref={nameRef}
           className="hero-title"
           style={{
-            fontFamily: "Satoshi, system-ui, sans-serif",
-            fontWeight: 800,
-            /* Device-wise responsive sizing: text-4xl base scaling up */
-            fontSize: "clamp(2.00rem, 5.00vw, 6.00rem)",
+            fontFamily: "var(--font-name)",
+            fontWeight: 700,
+            /* Reduced from original — two-line name, fully responsive */
+            fontSize: "clamp(1.9rem, 4.2vw, 5.0rem)",
             translate: "none",
             rotate: "none",
             scale: "none",
@@ -350,11 +350,11 @@ export default function Hero({ trigger }: HeroProps) {
         <div ref={subtitleRef} className="hero-subtitle">
           <h4
             style={{
-              fontFamily: "Satoshi, system-ui, sans-serif",
+              fontFamily: "var(--font-desc)",
               fontWeight: 400,
-              fontSize: "clamp(1.50rem, 1.50vw, 1.10rem)",
+              fontSize: "clamp(1.20rem, 1.20vw, 1rem)",
               lineHeight: 1.6,
-              color: "rgba(255,255,255,0.62)",
+              color: "rgba(255, 255, 255, 0.62)",
               marginBottom: "clamp(1.6rem, 3.5vh, 2.4rem)",
               maxWidth: 640,
             }}
@@ -429,8 +429,8 @@ export default function Hero({ trigger }: HeroProps) {
               display: "inline-flex", alignItems: "center", gap: "0.45rem",
               padding: "clamp(0.62rem, 1.3vw, 0.85rem) clamp(1.2rem, 2.5vw, 1.8rem)",
               borderRadius: "999px",
-              background: "#ffffff",
-              color: "#000000",
+              background: "#607456",
+              color: "#F6F0F0",
               fontFamily: "Satoshi, system-ui, sans-serif",
               fontWeight: 600,
               fontSize: "clamp(0.74rem, 1.2vw, 0.88rem)",
