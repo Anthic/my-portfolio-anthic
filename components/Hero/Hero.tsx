@@ -5,22 +5,27 @@ import { gsap } from "@/lib/gsap";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 /* ─── rotating words ──────────────────────────────────────────────────────── */
-const WORDS = ["AI Agents", "RAG Systems", "LangGraph pipelines", "full-stack architecture"] as const;
+const WORDS = [
+  "AI Agents",
+  "RAG Systems",
+  "LangGraph pipelines",
+  "full-stack architecture",
+] as const;
 const SUFFIX = "turning complex problems into production-ready solutions.";
 
 /* Dynamic selection colors: #607456, #EEE0CC, #BA6A4C, #7B2525 */
 const SELECTION_COLORS: Record<string, string> = {
-  "AI Agents":              "rgba(96,  116, 86,  0.32)",  // #607456 — earthy green
-  "RAG Systems":            "rgba(238, 224, 204, 0.28)",  // #EEE0CC — warm cream
-  "LangGraph pipelines":    "rgba(186, 106, 76,  0.32)",  // #BA6A4C — terracotta
-  "full-stack architecture": "rgba(123, 37,  37,  0.32)",  // #7B2525 — deep red
+  "AI Agents": "rgba(96,  116, 86,  0.32)", // #607456 — earthy green
+  "RAG Systems": "rgba(238, 224, 204, 0.28)", // #EEE0CC — warm cream
+  "LangGraph pipelines": "rgba(186, 106, 76,  0.32)", // #BA6A4C — terracotta
+  "full-stack architecture": "rgba(123, 37,  37,  0.32)", // #7B2525 — deep red
 };
 
 const SELECTION_BORDERS: Record<string, string> = {
-  "AI Agents":              "rgba(96,  116, 86,  0.70)",  // #607456
-  "RAG Systems":            "rgba(238, 224, 204, 0.60)",  // #EEE0CC
-  "LangGraph pipelines":    "rgba(186, 106, 76,  0.70)",  // #BA6A4C
-  "full-stack architecture": "rgba(123, 37,  37,  0.70)",  // #7B2525
+  "AI Agents": "rgba(96,  116, 86,  0.70)", // #607456
+  "RAG Systems": "rgba(238, 224, 204, 0.60)", // #EEE0CC
+  "LangGraph pipelines": "rgba(186, 106, 76,  0.70)", // #BA6A4C
+  "full-stack architecture": "rgba(123, 37,  37,  0.70)", // #7B2525
 };
 
 type HeroProps = {
@@ -28,20 +33,20 @@ type HeroProps = {
 };
 
 export default function Hero({ trigger }: HeroProps) {
-  const sectionRef  = useRef<HTMLElement>(null);
-  const videoRef    = useRef<HTMLVideoElement>(null);
-  const kickerRef   = useRef<HTMLParagraphElement>(null);
-  const nameRef     = useRef<HTMLHeadingElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const kickerRef = useRef<HTMLParagraphElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
-  const actionsRef  = useRef<HTMLDivElement>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
 
   /* word-cycle refs */
-  const wordWrapRef  = useRef<HTMLSpanElement>(null);  // the whole inline-block container
-  const wordRef      = useRef<HTMLSpanElement>(null);  // swappable word text
-  const selBgRef     = useRef<HTMLSpanElement>(null);  // coloured selection highlight
-  const wordIdxRef   = useRef(0);
-  const mountedRef   = useRef(true);
-  const mousePosRef  = useRef({ x: 0, y: 0 });        // live mouse position
+  const wordWrapRef = useRef<HTMLSpanElement>(null); // the whole inline-block container
+  const wordRef = useRef<HTMLSpanElement>(null); // swappable word text
+  const selBgRef = useRef<HTMLSpanElement>(null); // coloured selection highlight
+  const wordIdxRef = useRef(0);
+  const mountedRef = useRef(true);
+  const mousePosRef = useRef({ x: 0, y: 0 }); // live mouse position
   const [wordDisplay, setWordDisplay] = useState<string>(WORDS[0]);
 
   /* track mouse globally so cursor can return after animation */
@@ -74,24 +79,37 @@ export default function Hero({ trigger }: HeroProps) {
     mountedRef.current = true;
 
     const ctx = gsap.context(() => {
-      gsap.set([kickerRef.current, nameRef.current, subtitleRef.current, actionsRef.current], {
-        autoAlpha: 0, y: 28,
-      });
-      gsap.timeline({ defaults: { ease: "power4.out" } })
-        .to(kickerRef.current,   { autoAlpha: 1, y: 0, duration: 0.72 }, 0.10)
-        .to(nameRef.current,     { autoAlpha: 1, y: 0, duration: 0.90 }, 0.26)
+      gsap.set(
+        [
+          kickerRef.current,
+          nameRef.current,
+          subtitleRef.current,
+          actionsRef.current,
+        ],
+        {
+          autoAlpha: 0,
+          y: 28,
+        },
+      );
+      gsap
+        .timeline({ defaults: { ease: "power4.out" } })
+        .to(kickerRef.current, { autoAlpha: 1, y: 0, duration: 0.72 }, 0.1)
+        .to(nameRef.current, { autoAlpha: 1, y: 0, duration: 0.9 }, 0.26)
         .to(subtitleRef.current, { autoAlpha: 1, y: 0, duration: 0.76 }, 0.46)
-        .to(actionsRef.current,  { autoAlpha: 1, y: 0, duration: 0.66 }, 0.60);
+        .to(actionsRef.current, { autoAlpha: 1, y: 0, duration: 0.66 }, 0.6);
     }, sectionRef);
 
-    return () => { mountedRef.current = false; ctx.revert(); };
+    return () => {
+      mountedRef.current = false;
+      ctx.revert();
+    };
   }, [trigger]);
 
   /* ── custom-cursor word-selection animation — ONLY runs after loader ───── */
   useEffect(() => {
     if (!trigger) return;
     const wordWrap = wordWrapRef.current;
-    const selBg    = selBgRef.current;
+    const selBg = selBgRef.current;
     if (!wordWrap || !selBg) return;
 
     gsap.set(selBg, { scaleX: 0, transformOrigin: "left center", opacity: 0 });
@@ -102,7 +120,9 @@ export default function Hero({ trigger }: HeroProps) {
       if (!mountedRef.current) return;
 
       /* get the custom cursor outer ring */
-      const cursorOuter = document.querySelector<HTMLElement>(".custom-cursor-outer");
+      const cursorOuter = document.querySelector<HTMLElement>(
+        ".custom-cursor-outer",
+      );
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -111,79 +131,103 @@ export default function Hero({ trigger }: HeroProps) {
       });
 
       /* ① pause — let the current word breathe */
-      tl.to({}, { duration: 0.90 });
+      tl.to({}, { duration: 0.9 });
 
       /* ② move cursor to the word's LEFT edge */
-      tl.call(() => {
-        if (!wordWrap) return;
-        const rect = wordWrap.getBoundingClientRect();
-        const targetX = rect.left - 14;
-        const targetY = rect.top + rect.height / 2 - 18;
-        if (cursorOuter) {
-          gsap.to(cursorOuter, {
-            x: targetX,
-            y: targetY,
-            opacity: 1,
-            duration: 0.38,
-            ease: "power3.out",
-            overwrite: true,
-          });
-        }
-      }, [], ">");
+      tl.call(
+        () => {
+          if (!wordWrap) return;
+          const rect = wordWrap.getBoundingClientRect();
+          const targetX = rect.left - 14;
+          const targetY = rect.top + rect.height / 2 - 18;
+          if (cursorOuter) {
+            gsap.to(cursorOuter, {
+              x: targetX,
+              y: targetY,
+              opacity: 1,
+              duration: 0.38,
+              ease: "power3.out",
+              overwrite: true,
+            });
+          }
+        },
+        [],
+        ">",
+      );
 
       /* wait for cursor to arrive */
-      tl.to({}, { duration: 0.40 });
+      tl.to({}, { duration: 0.4 });
 
       /* ③ sweep cursor RIGHT across the word + expand selection highlight */
-      tl.call(() => {
-        if (!wordWrap) return;
-        const rect = wordWrap.getBoundingClientRect();
-        const endX  = rect.right + 6;
-        const endY  = rect.top + rect.height / 2 - 18;
-        if (cursorOuter) {
-          gsap.to(cursorOuter, {
-            x: endX,
-            y: endY,
-            duration: 0.44,
-            ease: "power2.inOut",
-            overwrite: true,
-          });
-        }
-      }, [], ">");
+      tl.call(
+        () => {
+          if (!wordWrap) return;
+          const rect = wordWrap.getBoundingClientRect();
+          const endX = rect.right + 6;
+          const endY = rect.top + rect.height / 2 - 18;
+          if (cursorOuter) {
+            gsap.to(cursorOuter, {
+              x: endX,
+              y: endY,
+              duration: 0.44,
+              ease: "power2.inOut",
+              overwrite: true,
+            });
+          }
+        },
+        [],
+        ">",
+      );
 
-      tl.to(selBg, {
-        scaleX: 1,
-        opacity: 1,
-        duration: 0.44,
-        ease: "power2.inOut",
-      }, "<");
+      tl.to(
+        selBg,
+        {
+          scaleX: 1,
+          opacity: 1,
+          duration: 0.44,
+          ease: "power2.inOut",
+        },
+        "<",
+      );
 
       /* ④ hold — word is "selected" */
       tl.to({}, { duration: 0.28 });
 
       /* ⑤ cursor retreats to mouse position + selection fades */
-      tl.call(() => {
-        const { x, y } = mousePosRef.current;
-        if (cursorOuter) {
-          gsap.to(cursorOuter, {
-            x,
-            y: y - 18,
-            opacity: 0,
-            duration: 0.34,
-            ease: "power2.inOut",
-            overwrite: true,
-          });
-        }
-      }, [], ">");
+      tl.call(
+        () => {
+          const { x, y } = mousePosRef.current;
+          if (cursorOuter) {
+            gsap.to(cursorOuter, {
+              x,
+              y: y - 18,
+              opacity: 0,
+              duration: 0.34,
+              ease: "power2.inOut",
+              overwrite: true,
+            });
+          }
+        },
+        [],
+        ">",
+      );
 
-      tl.to(selBg, { scaleX: 0, opacity: 0, duration: 0.30, ease: "power2.inOut" }, "<");
+      tl.to(
+        selBg,
+        { scaleX: 0, opacity: 0, duration: 0.3, ease: "power2.inOut" },
+        "<",
+      );
 
       /* ⑥ swap word immediately when cursor starts retreating */
-      tl.call(() => {
-        if (!mountedRef.current) return;
-        wordIdxRef.current = (wordIdxRef.current + 1) % WORDS.length;
-        setWordDisplay(WORDS[wordIdxRef.current]);
-      }, [], "<0.12");
+      tl.call(
+        () => {
+          if (!mountedRef.current) return;
+          wordIdxRef.current = (wordIdxRef.current + 1) % WORDS.length;
+          setWordDisplay(WORDS[wordIdxRef.current]);
+        },
+        [],
+        "<0.12",
+      );
     }
 
     cycleTimer = setTimeout(runCycle, 2000);
@@ -198,24 +242,26 @@ export default function Hero({ trigger }: HeroProps) {
     const ctx = gsap.context(() => {
       document.querySelectorAll<HTMLElement>(".hero-btn").forEach((btn) => {
         btn.addEventListener("pointerenter", () =>
-          gsap.to(btn, { scale: 1.05, duration: 0.26, ease: "power3.out" })
+          gsap.to(btn, { scale: 1.05, duration: 0.26, ease: "power3.out" }),
         );
         btn.addEventListener("pointerleave", () =>
-          gsap.to(btn, { scale: 1.00, duration: 0.26, ease: "power3.out" })
+          gsap.to(btn, { scale: 1.0, duration: 0.26, ease: "power3.out" }),
         );
         btn.addEventListener("pointerdown", () =>
-          gsap.to(btn, { scale: 0.97, duration: 0.10, ease: "power2.out" })
+          gsap.to(btn, { scale: 0.97, duration: 0.1, ease: "power2.out" }),
         );
         btn.addEventListener("pointerup", () =>
-          gsap.to(btn, { scale: 1.05, duration: 0.20, ease: "power3.out" })
+          gsap.to(btn, { scale: 1.05, duration: 0.2, ease: "power3.out" }),
         );
       });
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
-  const currentSelectionColor = SELECTION_COLORS[wordDisplay] || "rgba(43, 87, 72, 0.24)";
-  const currentSelectionBorder = SELECTION_BORDERS[wordDisplay] || "rgba(156, 176, 128, 0.45)";
+  const currentSelectionColor =
+    SELECTION_COLORS[wordDisplay] || "rgba(43, 87, 72, 0.24)";
+  const currentSelectionBorder =
+    SELECTION_BORDERS[wordDisplay] || "rgba(156, 176, 128, 0.45)";
 
   return (
     <section
@@ -238,11 +284,11 @@ export default function Hero({ trigger }: HeroProps) {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          /* Shift up slightly to show more of the subject's body, minimizing crop zoom */
+          
           objectPosition: "center 10%",
           zIndex: 0,
           transform: "scale(1.0)",
-          /* Increase video brightness and visual pop */
+          
           filter: "brightness(1.5) contrast(1.02)",
         }}
       >
@@ -284,7 +330,6 @@ export default function Hero({ trigger }: HeroProps) {
           paddingTop: "clamp(72px, 10vh, 120px)",
         }}
       >
-
         {/* ── BADGE ─────────────────────────────────────────────────────── */}
         <p
           ref={kickerRef}
@@ -310,8 +355,11 @@ export default function Hero({ trigger }: HeroProps) {
         >
           <span
             style={{
-              width: 6, height: 6, borderRadius: "50%",
-              background: "#4a85deff", flexShrink: 0,
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "#4a85deff",
+              flexShrink: 0,
               boxShadow: "0 0 6px 2px rgba(74, 109, 222, 0.6)",
             }}
           />
@@ -380,7 +428,8 @@ export default function Hero({ trigger }: HeroProps) {
                   aria-hidden="true"
                   style={{
                     position: "absolute",
-                    inset: "-2px -6px", /* Good padding so highlight encompasses the word perfectly */
+                    inset:
+                      "-2px -6px" /* Good padding so highlight encompasses the word perfectly */,
                     background: currentSelectionColor,
                     border: `1px solid ${currentSelectionBorder}`,
                     borderRadius: 4,
@@ -406,9 +455,7 @@ export default function Hero({ trigger }: HeroProps) {
             </div>
 
             {/* Suffix on a new block solves gap inconsistencies and CLS entirely */}
-            <div style={{ opacity: 0.82, marginTop: "0.4rem" }}>
-              {SUFFIX}
-            </div>
+            <div style={{ opacity: 0.82, marginTop: "0.4rem" }}>{SUFFIX}</div>
           </h4>
         </div>
 
@@ -426,8 +473,11 @@ export default function Hero({ trigger }: HeroProps) {
             href="#projects"
             className="hero-btn"
             style={{
-              display: "inline-flex", alignItems: "center", gap: "0.45rem",
-              padding: "clamp(0.62rem, 1.3vw, 0.85rem) clamp(1.2rem, 2.5vw, 1.8rem)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.45rem",
+              padding:
+                "clamp(0.62rem, 1.3vw, 0.85rem) clamp(1.2rem, 2.5vw, 1.8rem)",
               borderRadius: "999px",
               background: "#607456",
               color: "#F6F0F0",
@@ -447,8 +497,11 @@ export default function Hero({ trigger }: HeroProps) {
             href="#contact"
             className="hero-btn"
             style={{
-              display: "inline-flex", alignItems: "center", gap: "0.45rem",
-              padding: "clamp(0.62rem, 1.3vw, 0.85rem) clamp(1.2rem, 2.5vw, 1.8rem)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.45rem",
+              padding:
+                "clamp(0.62rem, 1.3vw, 0.85rem) clamp(1.2rem, 2.5vw, 1.8rem)",
               borderRadius: "999px",
               border: "1px solid rgba(255,255,255,0.28)",
               background: "rgba(255,255,255,0.08)",

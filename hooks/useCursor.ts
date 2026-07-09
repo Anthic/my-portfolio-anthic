@@ -17,10 +17,22 @@ export function useCursor() {
 
     const outer = outerRef.current;
     const inner = innerRef.current;
-    const xOuter = gsap.quickTo(outer, "x", { duration: 0.42, ease: "power3.out" });
-    const yOuter = gsap.quickTo(outer, "y", { duration: 0.42, ease: "power3.out" });
-    const xInner = gsap.quickTo(inner, "x", { duration: 0.08, ease: "power2.out" });
-    const yInner = gsap.quickTo(inner, "y", { duration: 0.08, ease: "power2.out" });
+    const xOuter = gsap.quickTo(outer, "x", {
+      duration: 0.42,
+      ease: "power3.out",
+    });
+    const yOuter = gsap.quickTo(outer, "y", {
+      duration: 0.42,
+      ease: "power3.out",
+    });
+    const xInner = gsap.quickTo(inner, "x", {
+      duration: 0.08,
+      ease: "power2.out",
+    });
+    const yInner = gsap.quickTo(inner, "y", {
+      duration: 0.08,
+      ease: "power2.out",
+    });
 
     const move = (event: PointerEvent) => {
       xOuter(event.clientX);
@@ -30,12 +42,22 @@ export function useCursor() {
     };
 
     const enterInteractive = () => {
-      gsap.to(outer, { scale: 1.85, opacity: 0.56, duration: 0.28, ease: "power3.out" });
+      gsap.to(outer, {
+        scale: 1.85,
+        opacity: 0.56,
+        duration: 0.28,
+        ease: "power3.out",
+      });
       gsap.to(inner, { scale: 0.72, duration: 0.28, ease: "power3.out" });
     };
 
     const leaveInteractive = () => {
-      gsap.to(outer, { scale: 1, opacity: 0.34, duration: 0.28, ease: "power3.out" });
+      gsap.to(outer, {
+        scale: 1,
+        opacity: 0.34,
+        duration: 0.28,
+        ease: "power3.out",
+      });
       gsap.to(inner, { scale: 1, duration: 0.28, ease: "power3.out" });
     };
 
@@ -49,7 +71,8 @@ export function useCursor() {
       gsap.to(inner, { scale: 1, duration: 0.22, ease: "power3.out" });
     };
 
-    const interactiveSelector = "a, button, [data-cursor], input, textarea, select";
+    const interactiveSelector =
+      "a, button, [data-cursor], input, textarea, select";
     const bindInteractive = () => {
       document.querySelectorAll(interactiveSelector).forEach((element) => {
         element.addEventListener("pointerenter", enterInteractive);

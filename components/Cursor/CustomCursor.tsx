@@ -12,7 +12,7 @@ export default function CustomCursor() {
         style={{
           width: "24px",
           height: "24px",
-          color: "#9CB080", /* Moss sage green color */
+          color: "#9CB080" /* Moss sage green color */,
           transform: "translate(-100px, -100px)",
           opacity: 0,
         }}
@@ -34,7 +34,10 @@ export default function CustomCursor() {
           />
         </svg>
       </div>
-      <div className="custom-cursor custom-cursor-inner hidden" style={{ display: "none" }} />
+      <div
+        className="custom-cursor custom-cursor-inner hidden"
+        style={{ display: "none" }}
+      />
     </>
   );
 }

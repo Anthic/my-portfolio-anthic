@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Anthic Kumar Singh | Portfolio",
-  description: "Premium portfolio experience built with Next.js, GSAP, and Lenis.",
+  description:
+    "Premium portfolio experience built with Next.js, GSAP, and Lenis.",
 };
 
 export default function RootLayout({
@@ -26,8 +27,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full bg-[#090909] text-white">{children}</body>
+      <body className="min-h-full bg-[#090909] text-white" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

@@ -36,7 +36,14 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
     gsap.fromTo(
       logo,
       { opacity: 0, y: 18, filter: "blur(8px)" },
-      { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, ease: "power3.out", delay: 0.2 },
+      {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.2,
+      },
     );
 
     gsap.to(logo, {
@@ -120,7 +127,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-9999 overflow-hidden" >
+    <div className="fixed inset-0 z-9999 overflow-hidden">
       <div className="absolute inset-0 flex">
         {Array.from({ length: 5 }).map((_, i) => (
           <div

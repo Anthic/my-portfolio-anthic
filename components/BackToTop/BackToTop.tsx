@@ -46,7 +46,12 @@ export default function BackToTop() {
   };
 
   return (
-    <button ref={buttonRef} onClick={scrollTop} className="fixed bottom-6 right-6 z-40 grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-white text-black shadow-2xl shadow-black/30 transition hover:bg-emerald-200" aria-label="Back to top">
+    <button
+      ref={buttonRef}
+      onClick={scrollTop}
+      className="fixed bottom-6 right-6 z-40 grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-white text-black shadow-2xl shadow-black/30 transition hover:bg-emerald-200"
+      aria-label="Back to top"
+    >
       <ArrowUp size={18} />
     </button>
   );

@@ -1,7 +1,7 @@
 /* ── Google Fonts ── Badge: Playwrite ID | Name: Merriweather | Description: Domine ── */
-@import url('https://fonts.googleapis.com/css2?family=Playwrite+ID:wght@100..400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playwrite+ID:wght@100..400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -10,8 +10,8 @@
   --font-sans: "Geist", Arial, Helvetica, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-badge: "Playwrite ID", cursive;
-  --font-name:  "Merriweather", Georgia, serif;
-  --font-desc:  "Domine", Georgia, serif;
+  --font-name: "Merriweather", Georgia, serif;
+  --font-desc: "Domine", Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,7 +51,7 @@ body {
   height: 24px;
   border-radius: 0;
   border: none;
-  opacity: 0.90;
+  opacity: 0.9;
 }
 
 .custom-cursor-inner {

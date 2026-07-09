@@ -63,7 +63,10 @@ export default function Navbar({ isReady = true }: NavbarProps) {
 
   return (
     <>
-      <nav className="fixed left-0 top-0 z-50 hidden w-full justify-center px-3 pt-4 md:flex" aria-label="Primary navigation">
+      <nav
+        className="fixed left-0 top-0 z-50 hidden w-full justify-center px-3 pt-4 md:flex"
+        aria-label="Primary navigation"
+      >
         <motion.div
           initial={{ opacity: 0, y: -18 }}
           animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: -18 }}
@@ -74,8 +77,12 @@ export default function Navbar({ isReady = true }: NavbarProps) {
           }}
           className="flex h-15 w-[calc(100vw-24px)] max-w-[95%] sm:max-w-160 md:max-w-190 lg:max-w-230 xl:max-w-270 2xl:max-w-310 items-center overflow-hidden rounded-full border border-black/10 bg-[#F6F0F0]/94 px-4 lg:px-5 shadow-[0_18px_42px_rgba(0,0,0,0.12),0_4px_16px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl transition-all duration-300"
           style={{
-            backgroundColor: scrolled ? "rgba(246, 240, 240, 0.88)" : "rgba(246, 240, 240, 0.94)",
-            borderColor: scrolled ? "rgba(9, 9, 9, 0.15)" : "rgba(9, 9, 9, 0.08)",
+            backgroundColor: scrolled
+              ? "rgba(246, 240, 240, 0.88)"
+              : "rgba(246, 240, 240, 0.94)",
+            borderColor: scrolled
+              ? "rgba(9, 9, 9, 0.15)"
+              : "rgba(9, 9, 9, 0.08)",
             boxShadow: scrolled
               ? "0 4px 24px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.6)"
               : "0 18px 42px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8)",
@@ -96,21 +103,20 @@ export default function Navbar({ isReady = true }: NavbarProps) {
             />
           </a>
 
-         
-
           <div className="flex min-w-0 flex-1 items-center justify-center gap-2 md:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
             {navItems.map((item) => (
               <NavLink key={item.label} label={item.label} href={item.href} />
             ))}
           </div>
 
-          
-
           <HireBtn />
         </motion.div>
       </nav>
 
-      <nav className="fixed left-0 top-0 z-50 w-full px-4 pt-4 md:hidden" aria-label="Mobile navigation">
+      <nav
+        className="fixed left-0 top-0 z-50 w-full px-4 pt-4 md:hidden"
+        aria-label="Mobile navigation"
+      >
         <div className="flex items-center justify-between gap-3">
           <a
             href="#home"

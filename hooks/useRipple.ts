@@ -35,7 +35,9 @@ export function useRipple() {
 
     return () => {
       window.removeEventListener("pointerdown", handleClick);
-      document.querySelectorAll(".click-ripple").forEach((element) => element.remove());
+      document
+        .querySelectorAll(".click-ripple")
+        .forEach((element) => element.remove());
     };
   }, []);
 }
