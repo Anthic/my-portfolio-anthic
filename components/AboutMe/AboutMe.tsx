@@ -13,7 +13,6 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const marqueePhaseRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -28,7 +27,6 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
       if (reduceMotion) {
         if (introRef.current) gsap.set(introRef.current, { autoAlpha: 0 });
         if (cardRef.current) gsap.set(cardRef.current, { y: 0, borderRadius: 0 });
-        if (marqueePhaseRef.current) gsap.set(marqueePhaseRef.current, { autoAlpha: 1 });
         return;
       }
 
@@ -90,22 +88,6 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
         );
       }
 
-      // ── 3. MARQUEE FADE IN — after card locks at y:0 ─────────────────
-      if (marqueePhaseRef.current) {
-        gsap.fromTo(
-          marqueePhaseRef.current,
-          { autoAlpha: 0 },
-          {
-            autoAlpha: 1,
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "65% top",
-              end: "68% top",
-              scrub: 1,
-            },
-          }
-        );
-      }
 
       ScrollTrigger.refresh();
     }, panel);
@@ -314,13 +296,7 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
         }}
       >
         {/* ── Marquee — vertically centred in the full card ── */}
-        <div
-          ref={marqueePhaseRef}
-          style={{
-            width: "100%",
-            visibility: "hidden", /* GSAP autoAlpha controls this */
-          }}
-        >
+        <div style={{ width: "100%" }}>
           <InfiniteMarquee
             items={marqueeItems}
             speed={22}

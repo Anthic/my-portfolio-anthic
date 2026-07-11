@@ -129,7 +129,7 @@ export default function ScrollHijackSection({
 
           {/* ── PANEL B: About Me ─────────────────────────────────────────── */}
           <div
-            style={{ width: "100vw", flexShrink: 0, height: "100%", overflow: "hidden" }}
+            style={{ width: "100vw", flexShrink: 0, height: "100%" }}
             aria-hidden={!isAboutVisible}
           >
             <AboutMe wrapperRef={wrapperRef} />
