@@ -271,7 +271,7 @@ export default function Hero({ trigger }: HeroProps) {
       className="relative flex items-center overflow-hidden"
     >
       {/* ── BACKGROUND VIDEO ──────────────────────────────────────────────── */}
-      <video
+      {/* <video
         ref={videoRef}
         muted
         loop
@@ -293,7 +293,7 @@ export default function Hero({ trigger }: HeroProps) {
         }}
       >
         <source src="/video/banner.mp4" type="video/mp4" />
-      </video>
+      </video> */}
 
       {/* ── OVERLAYS — multi-layered for cinematic depth ─────────────────── */}
       {/* Left heavy gradient for text readability */}

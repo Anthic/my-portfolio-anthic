@@ -65,3 +65,21 @@ body {
 .custom-cursor-inner {
   display: none;
 }
+
+/* ── Infinite Marquee ───────────────────────────────────────────────────────── */
+/* Used by InfiniteMarquee.tsx — CSS-driven so it remains butter-smooth         */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Move exactly 1/3 of the track width (since we triplicate items) */
+    transform: translateX(-33.3333%);
+  }
+}
+
+/* ── Scroll Hijack section ──────────────────────────────────────────────────── */
+/* Prevent sticky section from creating extra scroll space on some browsers    */
+.scroll-hijack-root {
+  will-change: transform;
+}

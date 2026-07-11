@@ -7,7 +7,7 @@ import CustomCursor from "@/components/Cursor/CustomCursor";
 import Navbar from "@/components/Navbar/Navbar";
 import NavbarDropAnimation from "@/components/Navbar/NavbarDropAnimation";
 import Hero from "@/components/Hero/Hero";
-import HeroStats from "@/components/HeroStats/HeroStats";
+import ScrollHijackSection from "@/components/ScrollHijack/ScrollHijackSection";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
@@ -32,17 +32,16 @@ export default function PortfolioPage() {
     }
 
     const ctx = gsap.context(() => {
-      // Hero handles its own entrance animations internally.
-      // PortfolioPage only drives the cross-section scroll choreography.
-
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
       const heroLayer = root.querySelector<HTMLElement>(".hero-pin-layer");
       const heroVisual = heroLayer?.querySelector<HTMLElement>("section");
+      // The stats section is now inside ScrollHijackSection — reference it there
       const statsSection = root.querySelector<HTMLElement>(".hero-statistics");
 
       if (heroLayer && statsSection && !reduceMotion) {
+        // Pin the Hero while the stats panel slides into view
         ScrollTrigger.create({
           trigger: heroLayer,
           start: "top top",
@@ -53,10 +52,11 @@ export default function PortfolioPage() {
         });
 
         if (heroVisual) {
+          // Subtle parallax: hero video scales/dims as stats arrive — fades to 0
           gsap.to(heroVisual, {
             yPercent: -3,
-            scale: 0.985,
-            opacity: 0.92,
+            scale: 0.97,
+            opacity: 0,
             ease: "none",
             scrollTrigger: {
               trigger: statsSection,
@@ -87,10 +87,13 @@ export default function PortfolioPage() {
           onComplete={handleNavAnimComplete}
         />
         <main ref={rootRef} className="overflow-hidden bg-[#090909] text-white">
+          {/* ── Hero: full-screen video banner ───────────────────────── */}
           <div className="hero-pin-layer relative z-10">
             <Hero trigger={loaded} />
           </div>
-          <HeroStats trigger={loaded} />
+
+          {/* ── ScrollHijackSection: Stats → About Me slide transition ─ */}
+          <ScrollHijackSection trigger={loaded} />
         </main>
         <BackToTop />
       </SmoothScroll>

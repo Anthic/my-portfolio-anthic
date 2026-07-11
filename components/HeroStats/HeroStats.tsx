@@ -7,6 +7,8 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 type HeroStatsProps = {
   trigger: boolean;
+  /** When true, renders as a full-panel fill inside ScrollHijackSection */
+  insideHijack?: boolean;
 };
 
 const headlineLines = [
@@ -39,15 +41,19 @@ const stats = [
   { value: "34+", label: "Tech & Tools" },
 ] as const;
 
-export default function HeroStats({ trigger }: HeroStatsProps) {
+export default function HeroStats({ trigger, insideHijack = false }: HeroStatsProps) {
   const sectionRef = useRef<HTMLElement>(null);
+
+  // In standalone mode, drive parallax off window scroll.
+  // In hijack mode, we skip parallax (parent handles transforms) — supply static values.
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
+    target: insideHijack ? undefined : sectionRef,
     offset: ["start end", "end start"],
   });
-  const liftY = useTransform(scrollYProgress, [0, 0.5, 1], [80, 0, -120]);
-  const scale = useTransform(scrollYProgress, [0, 0.7, 1], [0.96, 1, 1.03]);
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 1], [0, 1, 1]);
+  const liftY = useTransform(scrollYProgress, [0, 0.5, 1], insideHijack ? [0, 0, 0] : [80, 0, -120]);
+  const scale = useTransform(scrollYProgress, [0, 0.7, 1], insideHijack ? [1, 1, 1] : [0.96, 1, 1.03]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 1], insideHijack ? [1, 1, 1] : [0, 1, 1]);
+
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -175,10 +181,18 @@ export default function HeroStats({ trigger }: HeroStatsProps) {
     <motion.section
       ref={sectionRef}
       id="statistics"
-      style={{ y: liftY, scale, opacity }}
-      className="hero-statistics relative z-20 -mt-20 min-h-[100svh] w-full bg-transparent pt-8 text-white md:-mt-28"
+      style={insideHijack ? {} : { y: liftY, scale, opacity }}
+      className={`hero-statistics relative z-20 w-full bg-transparent text-white${
+        insideHijack
+          ? " flex items-center justify-center  rounded-t-[56px] sm:rounded-t-[72px]" /* fill the sticky panel */
+          : " -mt-20 min-h-[100svh] pt-8 md:-mt-28" /* standalone mode */
+      }`}
     >
-      <div className="stats-floating-panel relative min-h-[calc(100svh-2rem)] w-full overflow-hidden rounded-t-[56px] border-x border-t border-white/15 bg-black shadow-[0_-40px_120px_rgba(0,0,0,0.75)] sm:rounded-t-[72px]">
+      <div className={`stats-floating-panel relative w-full overflow-hidden bg-black shadow-[0_-40px_120px_rgba(0,0,0,0.75)]${
+          insideHijack
+            ? " min-h-screen rounded-none border-none"
+            : " min-h-[calc(100svh-2rem)] rounded-t-[56px] sm:rounded-t-[72px] border-x border-t border-white/15"
+        }`}>
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/22 to-transparent"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, Menu, X } from "lucide-react";
@@ -51,9 +51,23 @@ function HireBtn({ onClick }: { onClick?: () => void }) {
 export default function Navbar({ isReady = true }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 60);
+
+      // Hide on scroll down, show on scroll up
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -61,11 +75,16 @@ export default function Navbar({ isReady = true }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+
   return (
     <>
       <nav
         className="fixed left-0 top-0 z-50 hidden w-full justify-center px-3 pt-4 md:flex"
         aria-label="Primary navigation"
+        style={{
+          transform: (visible || mobileOpen) ? "translateY(0)" : "translateY(-120px)",
+          transition: "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)",
+        }}
       >
         <motion.div
           initial={{ opacity: 0, y: -18 }}
@@ -116,6 +135,10 @@ export default function Navbar({ isReady = true }: NavbarProps) {
       <nav
         className="fixed left-0 top-0 z-50 w-full px-4 pt-4 md:hidden"
         aria-label="Mobile navigation"
+        style={{
+          transform: (visible || mobileOpen) ? "translateY(0)" : "translateY(-120px)",
+          transition: "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)",
+        }}
       >
         <div className="flex items-center justify-between gap-3">
           <a
