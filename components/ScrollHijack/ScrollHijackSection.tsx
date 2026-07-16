@@ -38,6 +38,16 @@ export default function ScrollHijackSection({
         return;
       }
 
+      // ── MASTER PIN ──────────────────────────────────────────────────────
+      ScrollTrigger.create({
+        trigger: wrapper,
+        start: "top top",
+        end: "bottom top",
+        pin: sticky,
+        pinSpacing: false,
+        anticipatePin: 1,
+      });
+
       // ── MAIN SLIDE: Panel A (Stats) → Panel B (About Me) ────────────────
       const slideTl = gsap.timeline({
         scrollTrigger: {
@@ -45,9 +55,6 @@ export default function ScrollHijackSection({
           start: "top top",
           end: "+=300%",        // first 300vh of the 600vh for the slide
           scrub: 1.2,
-          pin: sticky,
-          pinSpacing: false,
-          anticipatePin: 1,
           onUpdate: (self) => {
             // Mark About Me as visible after 35% of slide progress
             setIsAboutVisible(self.progress > 0.35);

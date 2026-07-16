@@ -3,6 +3,55 @@
 import { useEffect, useRef, type RefObject } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import InfiniteMarquee from "@/components/ui/InfiniteMarquee";
+import { motion } from "framer-motion";
+
+function FloatingPaths({ position }: { position: number }) {
+  const paths = Array.from({ length: 36 }, (_, i) => ({
+    id: i,
+    d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
+      380 - i * 5 * position
+    } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${
+      152 - i * 5 * position
+    } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
+      684 - i * 5 * position
+    } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
+    color: `rgba(96,116,86,${0.05 + i * 0.01})`,
+    width: 0.5 + i * 0.03,
+  }));
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0">
+      <svg
+        className="w-full h-full"
+        viewBox="0 0 696 316"
+        fill="none"
+        style={{ color: "rgba(96, 116, 86, 0.55)" }}
+      >
+        <title>Background Paths</title>
+        {paths.map((path) => (
+          <motion.path
+            key={path.id}
+            d={path.d}
+            stroke="currentColor"
+            strokeWidth={path.width}
+            strokeOpacity={0.1 + path.id * 0.03}
+            initial={{ pathLength: 0.3, opacity: 0.6 }}
+            animate={{
+              pathLength: 1,
+              opacity: [0.3, 0.6, 0.3],
+              pathOffset: [0, 1, 0],
+            }}
+            transition={{
+              duration: 20 + Math.random() * 10,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "linear",
+            }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
 
 type AboutMeProps = {
   /** The 600vh wrapper ref from ScrollHijackSection — used to key scroll triggers */
@@ -13,6 +62,8 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const imageParallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -26,7 +77,8 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
 
       if (reduceMotion) {
         if (introRef.current) gsap.set(introRef.current, { autoAlpha: 0 });
-        if (cardRef.current) gsap.set(cardRef.current, { y: 0, borderRadius: 0 });
+        if (cardRef.current) gsap.set(cardRef.current, { y: 0, scale: 1, borderRadius: 0 });
+        if (contentRef.current) gsap.set(contentRef.current, { y: "-100vh" });
         return;
       }
 
@@ -35,10 +87,8 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
       //
       //  0% → 50%  Horizontal slide: Panel A (HeroStats) → Panel B (AboutMe)
       //  50%       Panel B fully in view. Buttons visible. Card fully below screen.
-      //  52% → 58% Card slowly peeks from the bottom (y: 100vh → ~55vh).
-      //            Buttons remain fully visible. Off-white gray top edge visible.
-      //  58% → 66% Card sweeps up, covering the buttons. Intro fades out.
-      //  66%       Card locked at y:0. Marquee fully revealed & stays visible.
+      //  52% → 66% Card scale & sweep entrance from bottom (y: 60vh → 0vh, scale: 0.8 → 1.0)
+      //  66% → 85% Inner content scroll (marquee moves up, image sweeps in)
       // ══════════════════════════════════════════════════════════════════
 
       // ── 1. CARD ENTRANCE ─────────────────────────────────────────────
@@ -46,17 +96,58 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
         gsap.fromTo(
           cardRef.current,
           {
-            y: "100vh",
-            borderRadius: "44px 44px 0 0",
+            y: "60vh",
+            scale: 0.8,
+            borderRadius: "60px 60px 0 0",
           },
           {
             y: "0vh",
+            scale: 1,
             borderRadius: "0px",
             ease: "power2.inOut",
             scrollTrigger: {
               trigger: wrapper,
               start: "52% top",
               end: "66% top",
+              scrub: 2,
+            },
+          }
+        );
+      }
+
+      // ── 1.5. INNER CONTENT SCROLL & IMAGE PARALLAX ───────────────────
+      if (contentRef.current) {
+        gsap.fromTo(
+          contentRef.current,
+          {
+            y: "0vh",
+          },
+          {
+            y: "-100vh",
+            ease: "none",
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "66% top",
+              end: "85% top",
+              scrub: 2,
+            },
+          }
+        );
+      }
+
+      if (imageParallaxRef.current) {
+        gsap.fromTo(
+          imageParallaxRef.current,
+          {
+            yPercent: -10,
+          },
+          {
+            yPercent: 10,
+            ease: "none",
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "66% top",
+              end: "85% top",
               scrub: 2,
             },
           }
@@ -277,31 +368,182 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
       </div>
 
       {/* ── Main Card ── */}
-      {/* Starts completely off-screen below; GSAP slides it up on scroll */}
       <div
         ref={cardRef}
         style={{
           position: "absolute",
           inset: 0,
           background: "#121212",
-          borderRadius: "44px 44px 0 0",
+          borderRadius: "60px 60px 0 0",
           overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
           zIndex: 5,
           transformOrigin: "bottom center",
-          transform: "translateY(100vh)",
+          transform: "translateY(60vh) scale(0.8)",
           willChange: "transform",
         }}
       >
-        {/* ── Marquee — vertically centred in the full card ── */}
-        <div style={{ width: "100%" }}>
-          <InfiniteMarquee
-            items={marqueeItems}
-            speed={22}
-            className="w-full"
-          />
+        {/* ── Inner scrolling content wrapper ── */}
+        <div
+          ref={contentRef}
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            willChange: "transform",
+          }}
+        >
+          {/* ── Phase 1: Marquee Section (Full Viewport) ── */}
+          <div
+            style={{
+              width: "100%",
+              height: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <div style={{ width: "100%" }}>
+              <InfiniteMarquee
+                items={marqueeItems}
+                speed={22}
+                className="w-full"
+              />
+            </div>
+          </div>
+
+          {/* ── Phase 2: Large Image Section (Full Viewport) ── */}
+          <div
+            style={{
+              width: "100%",
+              height: "100vh",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              flexShrink: 0,
+              padding: "4vh 4vw",
+              boxSizing: "border-box",
+              position: "relative",
+            }}
+          >
+            {/* Background floating paths behind the image card */}
+            <div className="absolute inset-0 z-0">
+              <FloatingPaths position={1} />
+              <FloatingPaths position={-1} />
+            </div>
+
+            <div
+              style={{
+                position: "relative",
+                height: "350vh",
+                aspectRatio: "3 / 4",
+                maxHeight: "100%",
+                maxWidth: "240vw",
+                overflow: "hidden",
+                cursor: "pointer",
+                zIndex: 5,
+              }}
+            >
+              {/* Inner Image Container */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  overflow: "hidden",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                {/* Parallax wrapper */}
+                <div
+                  ref={imageParallaxRef}
+                  style={{
+                    position: "absolute",
+                    width: "calc(100% + 100px)",
+                    height: "130vh",
+                    top: "-15vh",
+                    left: "-50px",
+                    willChange: "transform",
+                  }}
+                >
+                  <img
+                    src="/images/feature-img.jpeg"
+                    alt="Feature Profile"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center center",
+                      filter: "grayscale(100%) contrast(1.1)",
+                      transition: "filter 0.8s ease-out",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.filter = "grayscale(0%) contrast(1)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.filter = "grayscale(100%) contrast(1.1)";
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Vault frame - covers the clip edges with gradient matching card background #121212 */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  zIndex: 20,
+                }}
+              >
+                {/* Top bar */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-1px",
+                    left: 0,
+                    width: "100%",
+                    height: "52px",
+                    backgroundColor: "#121212",
+                  }}
+                />
+                {/* Top gradient */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "51px",
+                    left: 0,
+                    width: "100%",
+                    height: "128px",
+                    background: "linear-gradient(to bottom, #121212, rgba(18, 18, 18, 0))",
+                  }}
+                />
+
+                {/* Bottom bar */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "-1px",
+                    left: 0,
+                    width: "100%",
+                    height: "52px",
+                    backgroundColor: "#121212",
+                  }}
+                />
+                {/* Bottom gradient */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "51px",
+                    left: 0,
+                    width: "100%",
+                    height: "128px",
+                    background: "linear-gradient(to top, #121212, rgba(18, 18, 18, 0))",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
