@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import NavbarDropAnimation from "@/components/Navbar/NavbarDropAnimation";
 import Hero from "@/components/Hero/Hero";
 import ScrollHijackSection from "@/components/ScrollHijack/ScrollHijackSection";
+import ProjectsSection from "@/components/Projects/ProjectsSection";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
@@ -94,6 +95,9 @@ export default function PortfolioPage() {
 
           {/* ── ScrollHijackSection: Stats → About Me slide transition ─ */}
           <ScrollHijackSection trigger={loaded} />
+
+          {/* ── Featured Projects Section ── */}
+          <ProjectsSection />
         </main>
         <BackToTop />
       </SmoothScroll>
