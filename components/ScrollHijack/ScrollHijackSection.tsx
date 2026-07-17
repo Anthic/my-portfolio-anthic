@@ -75,7 +75,7 @@ export default function ScrollHijackSection({
       // ── EXIT: sticky panel shrinks as next section arrives ───────────────
       ScrollTrigger.create({
         trigger: wrapper,
-        start: "80% top",
+        start: "85% top",
         end: "bottom top",
         scrub: 1,
         onUpdate: (self) => {
@@ -96,11 +96,11 @@ export default function ScrollHijackSection({
   }, [trigger]);
 
   return (
-    // ── SCROLL SPACE: 600vh creates room for the full hijack sequence ──────
+    // ── SCROLL SPACE: 800vh creates room for the full hijack sequence ──────
     <div
       ref={wrapperRef}
       id="about"
-      style={{ position: "relative", height: "600vh" }}
+      style={{ position: "relative", height: "800vh" }}
     >
       {/* ── STICKY VIEWPORT: pinned by GSAP ScrollTrigger ──────────────── */}
       <div
