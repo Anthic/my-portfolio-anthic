@@ -490,13 +490,17 @@ export default function ProjectsSection() {
                 </svg>
 
                 {/* Inline stylesheet for stroke offset animation */}
-                <style jsx global>{`
-                  @keyframes dash {
-                    to {
-                      stroke-dashoffset: -20;
-                    }
-                  }
-                `}</style>
+                <style
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      @keyframes dash {
+                        to {
+                          stroke-dashoffset: -20;
+                        }
+                      }
+                    `,
+                  }}
+                />
               </div>
             </div>
 
