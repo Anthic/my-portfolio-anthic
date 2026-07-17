@@ -663,26 +663,57 @@ export default function AboutMe({ wrapperRef }: AboutMeProps) {
               </div>
             </div>
 
-            {/* Marquees */}
-            <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto mt-6 relative z-10">
-              <div className="overflow-hidden w-full">
-                <InfiniteMarquee
-                  items={techStackItems.map((item) => (
-                    <BrandCard key={item.name} name={item.name} icon={item.icon} color={item.color} hoverColor={item.hoverColor} />
-                  ))}
-                  speed={24}
-                  gap={20}
-                />
-              </div>
-              <div className="overflow-hidden w-full">
-                <InfiniteMarquee
-                  items={aiAndToolsItems.map((item) => (
-                    <BrandCard key={item.name} name={item.name} icon={item.icon} color={item.color} hoverColor={item.hoverColor} />
-                  ))}
-                  speed={24}
-                  reverse
-                  gap={20}
-                />
+            {/* ── 3D Isometric / Slanted Tech Ribbon Scroller ── */}
+            <div 
+              className="w-full relative mt-6 relative z-10 overflow-visible"
+              style={{
+                perspective: "1000px",
+                transformStyle: "preserve-3d",
+              }}
+            >
+              {/* Fade masks (left/right) to blend seamlessly with background */}
+              <div 
+                className="absolute top-0 left-0 w-32 h-full z-20 pointer-events-none"
+                style={{
+                  background: "linear-gradient(to right, #121212 10%, transparent)",
+                  height: "100%",
+                }}
+              />
+              <div 
+                className="absolute top-0 right-0 w-32 h-full z-20 pointer-events-none"
+                style={{
+                  background: "linear-gradient(to left, #121212 10%, transparent)",
+                  height: "100%",
+                }}
+              />
+
+              {/* Slanted Track */}
+              <div 
+                className="flex flex-col gap-6 w-full max-w-7xl mx-auto py-6"
+                style={{
+                  transform: "rotateX(12deg) rotateZ(-3deg) skewX(-4deg)",
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                <div className="overflow-hidden w-full" style={{ transformStyle: "preserve-3d" }}>
+                  <InfiniteMarquee
+                    items={techStackItems.map((item) => (
+                      <BrandCard key={item.name} name={item.name} icon={item.icon} color={item.color} hoverColor={item.hoverColor} />
+                    ))}
+                    speed={22}
+                    gap={24}
+                  />
+                </div>
+                <div className="overflow-hidden w-full" style={{ transformStyle: "preserve-3d" }}>
+                  <InfiniteMarquee
+                    items={aiAndToolsItems.map((item) => (
+                      <BrandCard key={item.name} name={item.name} icon={item.icon} color={item.color} hoverColor={item.hoverColor} />
+                    ))}
+                    speed={22}
+                    reverse
+                    gap={24}
+                  />
+                </div>
               </div>
             </div>
           </div>
